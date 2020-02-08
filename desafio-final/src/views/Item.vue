@@ -17,6 +17,7 @@
             <br />
             <strong>por</strong>
             {{item.author.name}}
+          <button @click="$emit('select-event', item.ID)">Lido</button>
           </div>
         </div>
       </div>
@@ -39,7 +40,6 @@ export default {
   props: ["posts"],
   data() {
     return {
-      // category: this.$route.query.category
     };
   },
   methods: {
@@ -52,20 +52,8 @@ export default {
       return this.posts.filter(item => {
         return item.categories['Sem categoria'].name == this.$route.query.category
       })
-      // return this.posts.filter(item => {
-      //   const obj = () => {
-      //     return this.posts.filter(item => {
-      //       return item.ID == this.$route.params.id;
-      //     });
-      //   };
-      //   return (
-      //     item.categories["Sem categoria"].name ==
-      //     obj.categories["Sem categoria"].name
-      //   );
-      // });
     }
   },
-
 };
 </script>
 

@@ -5,7 +5,7 @@
       <router-link class="link" to="/About">Sobre mim</router-link>
       <router-link class="link" to="/Contact">Contato</router-link>
     </div>
-    <router-view v-bind="posts"></router-view>
+    <router-view @select-event="changeLetter" v-bind="posts" :read="read" :idRead="id"></router-view>
   </div>
 </template>
 
@@ -15,8 +15,17 @@ import axios from "axios";
 export default {
   data() {
     return {
-      posts: null
+      posts: null,
+      read: false,
+      id: 0
     };
+  },
+  method: {
+    changeLetter(id){
+      console.log(id)
+      this.id = id
+      this.read = !this.read
+    }
   },
 
   beforeCreate() {

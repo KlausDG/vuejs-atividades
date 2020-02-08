@@ -13,6 +13,7 @@
               <br /><br />
               <strong>por </strong> {{posts[i].author.name}}
           </div>
+          <h1>{{idRead == posts[i].Id ? idRead : false}}</h1>
         </div>
       </div>
     </div>
@@ -25,16 +26,21 @@ export default {
   name: "Home",
   data() {
     return {
-      total: 5
+      total: 5,
+      letter: false
     };
   },
-  props:['posts'],
+  props:['posts', 'read', 'idRead'],
 
   methods: {
     showMore(){
       this.total += 5
+    },
+    changeLetter(){
+      this.letter = !this.letter
     }
-  }
+  },
+  
 };
 </script>
 
