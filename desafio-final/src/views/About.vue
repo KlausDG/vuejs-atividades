@@ -1,60 +1,17 @@
 <template>
   <div>
-    <div>
-      <button @click="swapDiscount">CUPOM</button>
-    </div>
-    <div class="divTable blueTable">
-      <div class="divTableHeading">
-        <div class="divTableRow">
-          <div class="divTableHead">Name</div>
-          <div class="divTableHead">Price</div>
-          <div class="divTableHead">Discout</div>
-          <div class="divTableHead">Id</div>
-          <div class="divTableHead">Image</div>
-        </div>
-      </div>
-      <div></div>
-      <div class="divTableBody" v-for="(item, index) in show()" :key="index">
-        <div class="divTableRow">
-          <div class="divTableCell">{{item.id}}</div>
-          <div class="divTableCell">
-            <router-link :to="`/item/${item.id}`">{{item.name}}</router-link>
-          </div>
-          <div class="divTableCell">{{item.price}}</div>
-          <div class="divTableCell">{{item.discount}}</div>
-          <div class="divTableCell">
-            <img :src="item.image" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <a href="https://github.com/KlausDG">Meu git</a>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home",
-  data() {
-    return {
-      discount: false
-    };
-  },
-
+  name: "About",
   methods: {
-    show() {
-      return this.$parent.items;
-    },
-    swapDiscount() {
-      this.discount = !this.discount;
-      if (this.discount) {
-        this.$parent.items.map(item => {
-          item.price -= item.price * (item.discount / 100);
-        });
-      } else {
-        this.$parent.items.map(item => {
-          item.price += item.price * (item.discount / 100);
-        });
-      }
+    getCurrentItems() {
+      return this.$parent.items.filter(item => {
+        return item.id == this.$route.params.id;
+      });
     }
   }
 };
@@ -77,10 +34,6 @@ div.blueTable {
 }
 .divTable.blueTable .divTableBody .divTableCell {
   font-size: 13px;
-}
-.divTable.blueTable .divTableBody .divTableCell img {
-  height: 10%;
-  width: 10%;
 }
 .divTable.blueTable .divTableRow:nth-child(even) {
   background: #d0e4f5;

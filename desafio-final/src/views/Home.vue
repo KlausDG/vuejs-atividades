@@ -1,33 +1,22 @@
 <template>
   <div>
-    <div>
-      <button @click="swapDiscount">CUPOM</button>
-    </div>
     <div class="divTable blueTable">
-      <div class="divTableHeading">
+      <div class="divTableBody" v-for="i in total -1" :key="i">
         <div class="divTableRow">
-          <div class="divTableHead">Name</div>
-          <div class="divTableHead">Price</div>
-          <div class="divTableHead">Discout</div>
-          <div class="divTableHead">Id</div>
-          <div class="divTableHead">Image</div>
-        </div>
-      </div>
-      <div></div>
-      <div class="divTableBody" v-for="(item, index) in show()" :key="index">
-        <div class="divTableRow">
-          <div class="divTableCell">{{item.id}}</div>
           <div class="divTableCell">
-            <router-link :to="`/item/${item.id}`">{{item.name}}</router-link>
-          </div>
-          <div class="divTableCell">{{item.price}}</div>
-          <div class="divTableCell">{{item.discount}}</div>
-          <div class="divTableCell">
-            <img :src="item.image" />
+              <router-link :to="`/item/${posts[i].ID}/${posts[i].slug}/?category=${posts[i].categories['Sem categoria'].name}`">{{posts[i].title}}</router-link>
+              <br /><br />
+              {{posts[i].date}}
+              <strong> em </strong> {{posts[i].categories['Sem categoria'].name}}
+              <br /><br />
+              <div v-html="posts[i].excerpt"></div>
+              <br /><br />
+              <strong>por </strong> {{posts[i].author.name}}
           </div>
         </div>
       </div>
     </div>
+    <button @click="showMore()">Carregar Mais</button>
   </div>
 </template>
 
@@ -36,25 +25,14 @@ export default {
   name: "Home",
   data() {
     return {
-      discount: false
+      total: 5
     };
   },
+  props:['posts'],
 
   methods: {
-    show() {
-      return this.$parent.items;
-    },
-    swapDiscount() {
-      this.discount = !this.discount;
-      if (this.discount) {
-        this.$parent.items.map(item => {
-          item.price -= item.price * (item.discount / 100);
-        });
-      } else {
-        this.$parent.items.map(item => {
-          item.price += item.price * (item.discount / 100);
-        });
-      }
+    showMore(){
+      this.total += 5
     }
   }
 };

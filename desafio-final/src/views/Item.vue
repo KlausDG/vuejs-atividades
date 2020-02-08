@@ -1,29 +1,31 @@
 <template>
   <div>
-    <div>
-      <button @click="swapDiscount">CUPOM</button>
-    </div>
     <div class="divTable blueTable">
-      <div class="divTableHeading">
+      <div class="divTableBody">
         <div class="divTableRow">
-          <div class="divTableHead">Name</div>
-          <div class="divTableHead">Price</div>
-          <div class="divTableHead">Discout</div>
-          <div class="divTableHead">Id</div>
-          <div class="divTableHead">Image</div>
+          <div class="divTableCell" v-for="item in finditem()" :key="item.ID">
+            <h1>{{item.title}}</h1>
+            <br />
+            <br />
+            {{item.date}}
+            <strong>em</strong>
+            {{item.categories['Sem categoria'].name}}
+            <br />
+            <br />
+            <div v-html="item.content"></div>
+            <br />
+            <br />
+            <strong>por</strong>
+            {{item.author.name}}
+          </div>
         </div>
       </div>
-      <div></div>
-      <div class="divTableBody" v-for="(item, index) in show()" :key="index">
+    </div>
+    <div class="divTable blueTable">
+      <div class="divTableBody" v-for="link in findCategory()" :key="link">
         <div class="divTableRow">
-          <div class="divTableCell">{{item.id}}</div>
           <div class="divTableCell">
-            <router-link :to="`/item/${item.id}`">{{item.name}}</router-link>
-          </div>
-          <div class="divTableCell">{{item.price}}</div>
-          <div class="divTableCell">{{item.discount}}</div>
-          <div class="divTableCell">
-            <img :src="item.image" />
+            <router-link :to="`/item/${link.ID}/${link.slug}/?category=${link.categories['Sem categoria'].name}`">{{link.title}}</router-link>
           </div>
         </div>
       </div>
@@ -33,30 +35,37 @@
 
 <script>
 export default {
-  name: "Home",
+  name: "Item",
+  props: ["posts"],
   data() {
     return {
-      discount: false
+      // category: this.$route.query.category
     };
   },
-
   methods: {
-    show() {
-      return this.$parent.items;
+    finditem() {
+      return this.posts.filter(item => {
+        return item.ID == this.$route.params.id;
+      });
     },
-    swapDiscount() {
-      this.discount = !this.discount;
-      if (this.discount) {
-        this.$parent.items.map(item => {
-          item.price -= item.price * (item.discount / 100);
-        });
-      } else {
-        this.$parent.items.map(item => {
-          item.price += item.price * (item.discount / 100);
-        });
-      }
+    findCategory() {
+      return this.posts.filter(item => {
+        return item.categories['Sem categoria'].name == this.$route.query.category
+      })
+      // return this.posts.filter(item => {
+      //   const obj = () => {
+      //     return this.posts.filter(item => {
+      //       return item.ID == this.$route.params.id;
+      //     });
+      //   };
+      //   return (
+      //     item.categories["Sem categoria"].name ==
+      //     obj.categories["Sem categoria"].name
+      //   );
+      // });
     }
-  }
+  },
+
 };
 </script>
 
@@ -77,10 +86,6 @@ div.blueTable {
 }
 .divTable.blueTable .divTableBody .divTableCell {
   font-size: 13px;
-}
-.divTable.blueTable .divTableBody .divTableCell img {
-  height: 10%;
-  width: 10%;
 }
 .divTable.blueTable .divTableRow:nth-child(even) {
   background: #d0e4f5;
